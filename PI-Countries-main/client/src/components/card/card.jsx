@@ -3,8 +3,10 @@ import "./card.css";
 
 function Card() {
   return (
-    <div>
-        <p>Estas en el componente Card</p>
+    <div className= 'card-container'>
+        <h2>Country Name</h2>
+        <p>Flag</p>
+        <p>Continent</p>
     </div>
   )
 }

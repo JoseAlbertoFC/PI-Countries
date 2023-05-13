@@ -5,8 +5,8 @@ import "./home.css";
 
 function Home() {
   return (
-    <div>
-      <h2>Esta es la Home Page</h2>
+    <div className='home'>
+      <h2 className='home-title'>Fun with Flags!</h2>
       <Navbar />
       <Cards />
     </div>

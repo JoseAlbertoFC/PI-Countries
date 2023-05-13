@@ -3,8 +3,11 @@ import "./navbar.css"
 
 function Navbar() {
   return (
-    <div>
-        <p>Estas en el componente Navbar</p>
+    <div className='search-box'>
+        <form>
+          <input placeholder = "Search"/>
+          <button>Search</button>
+        </form>
     </div>
   )
 }
