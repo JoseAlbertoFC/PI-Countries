@@ -1,12 +1,36 @@
 import React from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 import "./detail.css";
 
 function Detail() {
+  const { id } = useParams();
+  const [country, setCountry] = useState({});
+
+  useEffect(() => {
+    axios.get(`http://localhost:3001/countries/${id}`).then((response) => {
+      setCountry(response.data);
+    });
+  }, [id]);
   return (
     <div>
-        <p>Estas en la Detail Page</p>
+      <img
+        src={country.image}
+        alt="No fue posible cargar la imagen"
+        className="imagen"
+        />
+      <h2>{country.name}</h2>
+      <p>{country.id}</p>
+      <p>{country.continent}</p>
+      <p>{country.subregion}</p>
+      <p>{country.area + " m²"}</p>
+      <p>{country.population + " People"}</p>
+      <p>{country.activity}</p>
     </div>
-  )
+  );
 }
 
 export default Detail;
+      

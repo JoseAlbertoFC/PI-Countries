@@ -1,15 +1,15 @@
-import React from 'react';
-import "./navbar.css"
+import React from "react";
+import "./navbar.css";
 
-function Navbar() {
+function Navbar({ handleChange, handleSubmit }) {
   return (
-    <div className='search-box'>
-        <form>
-          <input placeholder = "Search"/>
-          <button>Search</button>
-        </form>
+    <div className="search-box">
+      <form>
+        <input placeholder="Search" type = "search" onChange = {(event) => handleChange(event)}/>
+        <button onClick={handleSubmit}>Search</button>
+      </form>
     </div>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

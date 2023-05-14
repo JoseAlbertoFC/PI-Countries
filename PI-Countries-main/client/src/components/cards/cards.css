@@ -5,3 +5,9 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 20px;
 }
+
+.mainImage {
+    cursor: pointer;
+    width: 255px;
+    height: 160px;
+}
