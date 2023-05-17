@@ -1,0 +1,38 @@
+.search-box {
+    /* border: 1px solid black; */
+    outline: none;
+    padding: 10px;
+    width: 150px;
+    line-height: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex: 1;
+}
+
+.all-options{
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 85vw;
+    margin: 0 auto;
+    justify-items: center;
+}
+
+.order-box{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex: 4.2;
+    margin-bottom: 29px
+}
+
+select {
+    width: 150px;
+    padding: 5px;
+    margin-bottom: 12px;
+    border: 2px solid rgb(120, 120, 120);
+    border-radius: 7px;
+}

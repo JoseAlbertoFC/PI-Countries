@@ -3,6 +3,11 @@ import axios from "axios";
 export const GET_COUNTRIES = "GET_COUNTRIES";
 export const GET_COUNTRIES_BY_NAME = "GET_COUNTRIES_BY_NAME";
 export const GET_COUNTRIES_BY_ID = "GET_COUNTRIES_BY_ID";
+export const POST_ACTIVITY = "POST_ACTIVITY";
+export const ALPHABETICAL_ORDER = "ALPHABETICAL_ORDER";
+export const POPULATION_ORDER = "POPULATION_ORDER";
+export const CONTINENT_FILTER = "CONTINENT_FILTER";
+export const ACTIVITY_FILTER = "ACTIVITY_FILTER"
 
 export function getCountries() {
   return async function (dispatch) {
@@ -34,4 +39,45 @@ export function getCountriesById(id) {
       payload: response.data,
     });
   };
+}
+
+export function postActivity(payload) {
+  return async function (dispatch) {
+    const response = await axios.post(
+      "http://localhost:3001/activities/",
+      payload
+    );
+    return dispatch({
+      type: POST_ACTIVITY,
+      payload: response.data,
+    });
+  };
+}
+
+export function alphabeticalOrder(order) {
+  return {
+    type: ALPHABETICAL_ORDER,
+    payload: order,
+  };
+}
+
+export function populationOrder(order) {
+  return {
+    type: POPULATION_ORDER,
+    payload: order,
+  };
+}
+
+export function continentFilter(continent) {
+  return {
+    type: CONTINENT_FILTER,
+    payload: continent,
+  };
+}
+
+export function activityFilter(activity) {
+  return {
+    type: ACTIVITY_FILTER,
+    payload: activity,
+  }
 }

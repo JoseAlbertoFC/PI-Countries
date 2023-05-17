@@ -14,23 +14,25 @@ function Detail() {
       setCountry(response.data);
     });
   }, [id]);
+  console.log(country.activity);
   return (
-    <div>
-      <img
-        src={country.image}
-        alt="No fue posible cargar la imagen"
-        className="imagen"
+    <div className="firs-container">
+      <div className="second-container">
+        <img
+          src={country.image}
+          alt="No fue posible cargar la imagen"
+          className="imagen"
         />
-      <h2>{country.name}</h2>
-      <p>{country.id}</p>
-      <p>{country.continent}</p>
-      <p>{country.subregion}</p>
-      <p>{country.area + " m²"}</p>
-      <p>{country.population + " People"}</p>
-      <p>{country.activity}</p>
+        <h2>{country.name}</h2>
+        <p>{country.id}</p>
+        <p>{country.continent}</p>
+        <p>{country.subregion}</p>
+        <p>{country.area + " m²"}</p>
+        <p>{country.population + " People"}</p>
+        <p>{country.activity}</p>
+      </div>
     </div>
   );
 }
 
 export default Detail;
-      

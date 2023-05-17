@@ -3,7 +3,7 @@
     flex-direction: column;
     background-color: rgb(72, 169, 183);
     border: 3px solid rgb(107, 107, 107);
-    border-radius: 5px;
+    border-radius: 7%;
     padding: 25px;
     -moz-osx-font-smoothing: grayscale;
     backface-visibility: hidden;
