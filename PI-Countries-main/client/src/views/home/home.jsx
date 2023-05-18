@@ -4,8 +4,8 @@ import { getCountries, getCountriesByName } from "../../redux/actions";
 import React from "react";
 import Cards from "../../components/cards/cards";
 import Pagination from "../../components/pagination/pagination";
-import "./home.css";
 import SearchBar from "../../components/searchBar/searchBar";
+import "./home.css";
 
 function Home() {
   const dispatch = useDispatch();

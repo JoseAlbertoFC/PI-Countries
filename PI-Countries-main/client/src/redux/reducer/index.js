@@ -7,6 +7,7 @@ import {
   POPULATION_ORDER,
   CONTINENT_FILTER,
   ACTIVITY_FILTER,
+  GET_ACTIVITIES,
 } from "../actions";
 
 let initialState = { allCountries: [], post: [], Activities: [] };
@@ -78,37 +79,41 @@ function rootReducer(state = initialState, action) {
         allCountries: popSortedCountries,
       };
 
-      case CONTINENT_FILTER:
-        const { payload: selectedContinent } = action;
-        let continentFilteredCountries;
-  
-        if (selectedContinent === "") {
-          continentFilteredCountries = state.allCountries;
-        } else {
-          continentFilteredCountries = state.allCountries.filter(
-            (country) => country.continent === selectedContinent
-          );
-        }
-        
-        return {
-          ...state,
-          allCountries: continentFilteredCountries,
-        };
+    case CONTINENT_FILTER:
+      const { payload: selectedContinent } = action;
+      let continentFilteredCountries;
 
-      case ACTIVITY_FILTER:
-        const filtered =
+      if (selectedContinent === "") {
+        continentFilteredCountries = state.allCountries;
+      } else {
+        continentFilteredCountries = state.allCountries.filter(
+          (country) => country.continent === selectedContinent
+        );
+      }
+
+      return {
+        ...state,
+        allCountries: continentFilteredCountries,
+      };
+
+    case GET_ACTIVITIES:
+      return {
+        ...state,
+        Activities: action.payload,
+      };
+
+    case ACTIVITY_FILTER:
+      const filtered =
         action.payload === "Activity Filter"
           ? state.allCountries
-          : state.allCountries.filter(
-              (index) =>
-                index.Activities.filter((act) => act.name === action.payload).length
+          : state.allCountries.filter((country) =>
+              country.Activities.some((act) => act.name === action.payload)
             );
-      
-        return{
-          ...state,
-          allCountries: filtered
-        }
-  
+
+      return {
+        ...state,
+        allCountries: filtered,
+      };
 
     default:
       return state;

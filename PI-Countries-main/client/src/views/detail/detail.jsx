@@ -14,7 +14,7 @@ function Detail() {
       setCountry(response.data);
     });
   }, [id]);
-  console.log(country.activity);
+  console.log(country);
   return (
     <div className="firs-container">
       <div className="second-container">
@@ -29,7 +29,7 @@ function Detail() {
         <p>{country.subregion}</p>
         <p>{country.area + " m²"}</p>
         <p>{country.population + " People"}</p>
-        <p>{country.activity}</p>
+        <p>{country.Activities?.map((act) => <p>{act.name && act.name}</p>)}</p>
       </div>
     </div>
   );

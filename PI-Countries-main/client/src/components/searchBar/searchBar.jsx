@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import {
   alphabeticalOrder,
   populationOrder,
   continentFilter,
+  getActivities,
   activityFilter,
 } from "../../redux/actions";
 import "./searchBar.css";
@@ -48,6 +49,10 @@ function SearchBar({ handleChange, handleSubmit }) {
     dispatch(activityFilter(selectedActivity));
   };
 
+  useEffect(() => {
+    dispatch(getActivities())
+  }, [dispatch])
+
   return (
     <div className="all-options">
       <div className="order-box">
@@ -76,10 +81,10 @@ function SearchBar({ handleChange, handleSubmit }) {
 
         <select value={selectedActivity} onChange={handleActivityChange}>
           <option>Activity Filter</option>
-          {activities &&
-            activities.map((activity, key) => (
-              <option key={key} value={activity}>
-                {activity}
+          {activities.length &&
+            activities.map((activity, index) => (
+              <option key={index} value={activity.name}>
+                {activity.name}
               </option>
             ))}
         </select>

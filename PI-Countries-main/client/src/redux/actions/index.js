@@ -7,7 +7,8 @@ export const POST_ACTIVITY = "POST_ACTIVITY";
 export const ALPHABETICAL_ORDER = "ALPHABETICAL_ORDER";
 export const POPULATION_ORDER = "POPULATION_ORDER";
 export const CONTINENT_FILTER = "CONTINENT_FILTER";
-export const ACTIVITY_FILTER = "ACTIVITY_FILTER"
+export const ACTIVITY_FILTER = "ACTIVITY_FILTER";
+export const GET_ACTIVITIES = "GET_ACTIVITIES"
 
 export function getCountries() {
   return async function (dispatch) {
@@ -81,3 +82,14 @@ export function activityFilter(activity) {
     payload: activity,
   }
 }
+
+export function getActivities() {
+  return async function (dispatch) {
+    const response = await axios.get("http://localhost:3001/activities/");
+    return dispatch({
+      type: GET_ACTIVITIES,
+      payload: response.data,
+    });
+  };
+}
+
