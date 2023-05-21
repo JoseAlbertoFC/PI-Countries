@@ -122,8 +122,8 @@ function Form() {
           })
         );
       });
-      resetForm();
       alert("Activity Created Successfully!");
+      resetForm();
     } else {
       alert("Something's Wrong");
     }
@@ -221,12 +221,6 @@ function Form() {
             })}
           </select>
 
-          {/* <input
-            name="countries"
-            value={data.countries}
-            onChange={handleChange}
-            required
-          /> */}
 
           {errors.countries && (
             <span className="error-message">{errors.countries}</span>

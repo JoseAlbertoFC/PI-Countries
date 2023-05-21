@@ -3,7 +3,7 @@ const { postActivity, getActivities } = require("../handlers/Activities")
 
 const activitiesRoutes = Router();
 
- activitiesRoutes.post("/", postActivity);
+activitiesRoutes.post("/", postActivity);
 activitiesRoutes.get("/", getActivities);
 
 

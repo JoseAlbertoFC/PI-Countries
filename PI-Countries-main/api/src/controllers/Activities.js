@@ -23,6 +23,7 @@ const postCountryActivity = async (name, season, difficulty, duration, countries
 
     return createdActivity;
   } catch (error) {
+    console.log(error)
     throw new Error("Ups! We got a problem.");
   }
 };

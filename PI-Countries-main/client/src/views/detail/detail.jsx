@@ -25,8 +25,9 @@ function Detail() {
         />
         <h2>{country.name}</h2>
         <p>{country.id}</p>
+        <p>{country.capital}</p>
         <p>{country.continent}</p>
-        <p>{country.subregion}</p>
+        <p>{country.subRegion}</p>
         <p>{country.area + " m²"}</p>
         <p>{country.population + " People"}</p>
         <p>{country.Activities?.map((act) => <p>{act.name && act.name}</p>)}</p>

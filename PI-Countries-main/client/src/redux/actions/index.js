@@ -12,12 +12,16 @@ export const GET_ACTIVITIES = "GET_ACTIVITIES";
 
 export function getCountries() {
   return async function (dispatch) {
-    const response = await axios.get("http://localhost:3001/countries/");
-    return dispatch({
-      type: GET_COUNTRIES,
-      payload: response.data,
-    });
-  };
+      try {
+      const response = await axios.get("http://localhost:3001/countries/");
+      return dispatch({
+        type: GET_COUNTRIES,
+        payload: response.data,
+      });
+    } catch (error) {
+      alert(error.message)
+    };
+  }
 }
 
 export function getCountriesByName(name) {
@@ -44,15 +48,20 @@ export function getCountriesById(id) {
 
 export function postActivity(payload) {
   return async function (dispatch) {
-    const response = await axios.post(
-      "http://localhost:3001/activities/",
-      payload
-    );
-    return dispatch({
-      type: POST_ACTIVITY,
-      payload: response.data,
-    });
-  };
+      try {
+      const response = await axios.post(
+        "http://localhost:3001/activities/",
+        payload
+      );
+      return dispatch({
+        type: POST_ACTIVITY,
+        payload: response.data,
+      });
+    } catch (error) {
+      alert(error.message)
+    };
+  }
+ 
 }
 
 export function alphabeticalOrder(order) {
@@ -85,10 +94,15 @@ export function activityFilter(activity) {
 
 export function getActivities() {
   return async function (dispatch) {
-    const response = await axios.get("http://localhost:3001/activities/");
-    return dispatch({
-      type: GET_ACTIVITIES,
-      payload: response.data,
-    });
-  };
+      try {
+      const response = await axios.get("http://localhost:3001/activities/");
+      return dispatch({
+        type: GET_ACTIVITIES,
+        payload: response.data,
+      });
+    } catch (error) {
+      alert(error.message)
+    }; 
+  }
+  
 }

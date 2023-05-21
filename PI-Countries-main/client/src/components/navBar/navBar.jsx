@@ -14,6 +14,9 @@ function NavBar() {
       <Link to="/form">
         <button>Create Activity</button>
       </Link>
+      <Link to="/extras">
+        <button>Extras</button>
+      </Link>
     </nav>
   );
 }
