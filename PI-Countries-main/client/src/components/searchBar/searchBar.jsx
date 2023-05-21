@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 import {
   alphabeticalOrder,
   populationOrder,
@@ -12,18 +11,16 @@ import "./searchBar.css";
 
 function SearchBar({ handleChange, handleSubmit }) {
   const dispatch = useDispatch();
-  const [order, setOrder] = useState("");
-  const [continent, setContinent] = useState("");
-  const [selectedActivity, setSelectedActivity] = useState("");
   const activities = useSelector((state) => state.Activities);
 
   const handleAlfOrderChange = (event) => {
     const selectedOrder = event.target.value;
-    setOrder(selectedOrder);
     if (selectedOrder === "A-Z") {
       dispatch(alphabeticalOrder("asc"));
     } else if (selectedOrder === "Z-A") {
       dispatch(alphabeticalOrder("desc"));
+    } else {
+      dispatch(alphabeticalOrder(""));
     }
   };
 
@@ -33,45 +30,44 @@ function SearchBar({ handleChange, handleSubmit }) {
       dispatch(populationOrder("asc"));
     } else if (selectedOrder === "Decrescent") {
       dispatch(populationOrder("desc"));
+    } else {
+      dispatch(populationOrder(""));
     }
   };
 
   const handleContinentChange = (event) => {
     const selectedContinent = event.target.value;
-    setContinent(selectedContinent);
-
     dispatch(continentFilter(selectedContinent));
   };
 
   const handleActivityChange = (event) => {
     const selectedActivity = event.target.value;
-    setSelectedActivity(selectedActivity);
     dispatch(activityFilter(selectedActivity));
   };
 
   useEffect(() => {
-    dispatch(getActivities())
-  }, [dispatch])
+    dispatch(getActivities());
+  }, [dispatch]);
 
   return (
     <div className="all-options">
       <div className="order-box">
-        <select value={order} onChange={handleAlfOrderChange}>
-          <option>Alphabetical Order</option>
+        <select onChange={handleAlfOrderChange}>
+          <option value="">Alphabetical Order</option>
           <option>A-Z</option>
           <option>Z-A</option>
         </select>
 
-        <select value={order} onChange={handlePopulationOrderChange}>
-          <option>Population Order</option>
+        <select onChange={handlePopulationOrderChange}>
+          <option value="">Population Order</option>
           <option>Ascendant</option>
           <option>Decrescent</option>
         </select>
 
-        <select value={continent} onChange={handleContinentChange}>
-          <option>Continent Filter</option>
+        <select onChange={handleContinentChange}>
+          <option value="">Continent Filter</option>
           <option>Africa</option>
-          <option>Antartica</option>
+          <option>Antarctica</option>
           <option>Asia</option>
           <option>Europe</option>
           <option>North America</option>
@@ -79,8 +75,8 @@ function SearchBar({ handleChange, handleSubmit }) {
           <option>South America</option>
         </select>
 
-        <select value={selectedActivity} onChange={handleActivityChange}>
-          <option>Activity Filter</option>
+        <select onChange={handleActivityChange}>
+          <option value="">Activity Filter</option>
           {activities.length &&
             activities.map((activity, index) => (
               <option key={index} value={activity.name}>

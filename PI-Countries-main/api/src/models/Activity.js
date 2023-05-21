@@ -4,6 +4,11 @@ module.exports = (sequelize) => {
   sequelize.define(
     "Activity",
     {
+      id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        primaryKey: true
+      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -17,7 +22,7 @@ module.exports = (sequelize) => {
         allowNull: false,
         validate: {
           min: 1,
-          max: 5
+          max: 5,
         },
       },
       duration: {

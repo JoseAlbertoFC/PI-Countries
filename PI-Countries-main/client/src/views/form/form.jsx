@@ -1,7 +1,7 @@
 import React from "react";
 import { postActivity } from "../../redux/actions";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./form.css";
 
 const validateNamesRegex = /^[a-zA-Z\s,]+$/;
@@ -9,6 +9,7 @@ const validateDifficultyRegex = /^[1-5]$/;
 const validateTimeRegex = /^(?:[1-9]|1[0-9]|2[0-4])$/;
 
 function Form() {
+  const allCountries = useSelector((state) => state.allCountries);
   const [data, setData] = useState({
     name: "",
     season: "",
@@ -17,151 +18,244 @@ function Form() {
     countries: [],
   });
 
+  const [errors, setErrors] = useState({
+    name: "",
+    season: "",
+    difficulty: "",
+    duration: "",
+    countries: "",
+  });
+
   const dispatch = useDispatch();
 
   function handleChange(event) {
+    const { name, value } = event.target;
+
+    if (name === "countries") {
+      setData((prevData) => ({
+        ...prevData,
+        [name]: [...prevData.countries, value],
+      }));
+    } else {
+      setData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+
+    validate(name, value);
+  }
+
+  function validate(name, value) {
+    let error = "";
+
+    switch (name) {
+      case "name":
+        error = value && !validateNamesRegex.test(value) ? "👀" : "";
+        break;
+      case "season":
+        error = value && "Seasons".includes(value) ? "👀" : "";
+        break;
+      case "difficulty":
+        error = value && "0 Points".includes(value) ? "👀" : "";
+        break;
+      case "duration":
+        error = value && "Hours".includes(value) ? "👀" : "";
+        break;
+      case "countries":
+        error = value && !validateNamesRegex.test(value) ? "👀" : "";
+        break;
+      default:
+        break;
+    }
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error,
+    }));
+  }
+  function resetForm() {
     setData({
-      ...data,
-      [event.target.name]: event.target.value,
+      name: "",
+      season: "",
+      difficulty: "",
+      duration: "",
+      countries: [],
+    });
+
+    setErrors({
+      name: "",
+      season: "",
+      difficulty: "",
+      duration: "",
+      countries: "",
     });
   }
-  // const validateNames = (str) => {
-  //   return validateNamesRegex.test(str)
-  // }
 
-  // const validateSeason = (str) => {
-  //   if(str === "Summer" || str === "Winter" || str === "Spring" || str ==="Autumn"){
-  //     return str
-  //   }
-  // }
-
-  // const ValidateDifficulty = (str) => {
-  //   return validateDifficultyRegex.test(str)
-  // }
-
-  // const validateDuration = (str) => {
-  //   return validateTimeRegex.test(str)
-  // }
-
-  // const validateCountires = (str) => {
-  //   return validateNamesRegex.test(str)
-  // }
-
-  // const [error, setError] = useState({
-  //   name: "",
-  //   season: "",
-  //   difficulty: "",
-  //   duration: "",
-  //   countries: "",
-  // });
-
-  // const validate = (input) => {
-  //   if (/^[a-zA-Z ]+$/.test(input.name)) {
-  //     setError({ ...error, name: "" });
-  //   } else {
-  //     setError({ ...error, name: "Formato invalido." });
-  //   }
-  // };
-
-  //   validate({
-  //     ...data,
-  //     [event.target.name]: event.target.value,
-  //   });
-  // }
+  function handleClose(countryToRemove) {
+    const filteredArray = data.countries.filter(
+      (country) => country !== countryToRemove
+    );
+    setData((previousData) => ({
+      ...previousData,
+      countries: filteredArray,
+    }));
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
 
     const { name, season, difficulty, duration, countries } = data;
 
-    const validateNames = (str) => {
-      return validateNamesRegex.test(str);
-    };
-
-    const validateSeason = (str) => {
-      if (
-        str === "Summer" ||
-        str === "Winter" ||
-        str === "Spring" ||
-        str === "Autumn"
-      ) {
-        return str;
-      }
-    };
-
-    const ValidateDifficulty = (str) => {
-      return validateDifficultyRegex.test(str);
-    };
-
-    const validateDuration = (str) => {
-      return validateTimeRegex.test(str);
-    };
-
-    const validateCountires = (str) => {
-      return validateNamesRegex.test(str);
-    };
-    // Validar los campos utilizando las funciones de validación
-    const isNameValid = validateNames(name);
-    const isSeasonValid = validateSeason(season);
-    const isDifficultyValid = ValidateDifficulty(difficulty);
-    const isDurationValid = validateDuration(duration);
-    const isCountriesValid = validateCountires(countries);
-
-    // Verificar si todos los campos son válidos
     if (
-      isNameValid &&
-      isSeasonValid &&
-      isDifficultyValid &&
-      isDurationValid &&
-      isCountriesValid
+      validateNamesRegex.test(name) &&
+      ["Summer", "Winter", "Spring", "Autumn"].includes(season) &&
+      validateDifficultyRegex.test(difficulty) &&
+      validateTimeRegex.test(duration) &&
+      countries.length
     ) {
-      // Crear un objeto con los datos validados
-      const validatedData = {
-        name,
-        season,
-        difficulty,
-        duration,
-        countries,
-      };
-
-      // Enviar los datos a la base de datos utilizando la función de Redux
-      dispatch(postActivity(validatedData));
+      countries.forEach((country) => {
+        dispatch(
+          postActivity({
+            ...data,
+            countries: country,
+          })
+        );
+      });
+      resetForm();
+      alert("Activity Created Successfully!");
     } else {
-      throw new Error({ error: "Campo invalido o incompleto." })
-      // Mostrar un mensaje de error o realizar alguna acción en caso de campos inválidos
+      alert("Something's Wrong");
     }
   }
 
   return (
     <div className="form-container">
-    <form className="form-box" onSubmit={handleSubmit}>
-      <div>
-        <label>Name</label>
-        <input name="name" velue={data.value} onChange={handleChange} />
-        <span>{}</span>
-      </div>
+      <form className="form-box" onSubmit={handleSubmit}>
+        <div>
+          <label>Activity</label>
+          <input
+            name="name"
+            value={data.name}
+            onChange={handleChange}
+            onInvalid={handleChange}
+            required
+          />
+          {errors.name && <span className="error-message">{errors.name}</span>}
+        </div>
 
-      <div>
-        <label>Season</label>
-        <input name="season" velue={data.value} onChange={handleChange} />
-      </div>
+        <div>
+          <label>Season</label>
+          <select
+            name="season"
+            value={data.season}
+            onChange={handleChange}
+            required
+          >
+            <option>Seasons</option>
+            <option>Autumn</option>
+            <option>Spring</option>
+            <option>Summer</option>
+            <option>Winter</option>
+          </select>
+          {errors.season && (
+            <span className="error-message">{errors.season}</span>
+          )}
+        </div>
 
-      <div>
-        <label>Difficulty</label>
-        <input name="difficulty" velue={data.value} onChange={handleChange} />
-      </div>
+        <div>
+          <label>Difficulty</label>
+          <select
+            name="difficulty"
+            value={data.difficulty}
+            onChange={handleChange}
+            required
+          >
+            <option>Points</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+          {errors.difficulty && (
+            <span className="error-message">{errors.difficulty}</span>
+          )}
+        </div>
 
-      <div>
-        <label>Duration</label>
-        <input name="duration" velue={data.value} onChange={handleChange} />
-      </div>
+        <div>
+          <label>Duration</label>
+          <select
+            name="duration"
+            value={data.duration}
+            onChange={handleChange}
+            required
+          >
+            <option>Hours</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+          </select>
+          {errors.duration && (
+            <span className="error-message">{errors.duration}</span>
+          )}
+        </div>
 
-      <div>
-        <label>Countries</label>
-        <input name="countries" velue={data.value} onChange={handleChange} />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+        <div>
+          <label>Countries</label>
+          {console.log(allCountries)}
+          <select name="countries" onChange={handleChange} required>
+            <option>Select Country</option>
+            {allCountries.map(({ name, id }) => {
+              return (
+                <option value={name} key={id}>
+                  {name}
+                </option>
+              );
+            })}
+          </select>
+
+          {/* <input
+            name="countries"
+            value={data.countries}
+            onChange={handleChange}
+            required
+          /> */}
+
+          {errors.countries && (
+            <span className="error-message">{errors.countries}</span>
+          )}
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          {data.countries.map((country) => (
+            <div className="selected-country-container">
+              <div className="x-container" onClick={() => handleClose(country)}>
+                X
+              </div>
+              <div className="country-text" title={country}>
+                {country}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button type="submit" onClick={handleSubmit}>
+          Submit
+        </button>
+      </form>
     </div>
   );
 }

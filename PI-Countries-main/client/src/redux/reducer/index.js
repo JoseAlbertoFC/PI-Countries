@@ -10,7 +10,15 @@ import {
   GET_ACTIVITIES,
 } from "../actions";
 
-let initialState = { allCountries: [], post: [], Activities: [] };
+let initialState = {
+  allCountries: [],
+  post: [],
+  Activities: [],
+  alphabeticalSort: "",
+  populationSort: "",
+  filterByContinent: "",
+  filterByActivity: "",
+};
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
@@ -39,61 +47,21 @@ function rootReducer(state = initialState, action) {
       };
 
     case ALPHABETICAL_ORDER:
-      const { payload: order } = action;
-      let sortedCountries;
-
-      if (order === "asc") {
-        sortedCountries = [...state.allCountries].sort((a, b) =>
-          a.name.localeCompare(b.name)
-        );
-      } else if (order === "desc") {
-        sortedCountries = [...state.allCountries].sort((a, b) =>
-          b.name.localeCompare(a.name)
-        );
-      } else {
-        sortedCountries = state.allCountries;
-      }
       return {
         ...state,
-        allCountries: sortedCountries,
+        alphabeticalSort: action.payload,
       };
 
     case POPULATION_ORDER:
-      const { payload: popOrder } = action;
-      let popSortedCountries;
-
-      if (popOrder === "asc") {
-        popSortedCountries = [...state.allCountries].sort(
-          (a, b) => a.population - b.population
-        );
-      } else if (popOrder === "desc") {
-        popSortedCountries = [...state.allCountries].sort(
-          (a, b) => b.population - a.population
-        );
-      } else {
-        popSortedCountries = state.allCountries;
-      }
-
       return {
         ...state,
-        allCountries: popSortedCountries,
+        populationSort: action.payload,
       };
 
     case CONTINENT_FILTER:
-      const { payload: selectedContinent } = action;
-      let continentFilteredCountries;
-
-      if (selectedContinent === "") {
-        continentFilteredCountries = state.allCountries;
-      } else {
-        continentFilteredCountries = state.allCountries.filter(
-          (country) => country.continent === selectedContinent
-        );
-      }
-
       return {
         ...state,
-        allCountries: continentFilteredCountries,
+        filterByContinent: action.payload,
       };
 
     case GET_ACTIVITIES:
@@ -103,16 +71,9 @@ function rootReducer(state = initialState, action) {
       };
 
     case ACTIVITY_FILTER:
-      const filtered =
-        action.payload === "Activity Filter"
-          ? state.allCountries
-          : state.allCountries.filter((country) =>
-              country.Activities.some((act) => act.name === action.payload)
-            );
-
       return {
         ...state,
-        allCountries: filtered,
+        filterByActivity: action.payload,
       };
 
     default:
