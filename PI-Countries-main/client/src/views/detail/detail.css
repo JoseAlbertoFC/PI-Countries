@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 115vh;
   }
   
   .second-container {
@@ -14,13 +14,12 @@
     border: solid rgb(150, 150, 150) 6px;
     border-radius: 45px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    
   }
   
   .imagen {
     width: 300px;
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
   
   h2 {

@@ -12,43 +12,51 @@ export const GET_ACTIVITIES = "GET_ACTIVITIES";
 
 export function getCountries() {
   return async function (dispatch) {
-      try {
+    try {
       const response = await axios.get("http://localhost:3001/countries/");
       return dispatch({
         type: GET_COUNTRIES,
         payload: response.data,
       });
     } catch (error) {
-      alert(error.message)
-    };
-  }
+      alert(error.message);
+    }
+  };
 }
 
 export function getCountriesByName(name) {
   return async function (dispatch) {
-    const response = await axios.get(
-      `http://localhost:3001/countries/?name=${name}`
-    );
-    return dispatch({
-      type: GET_COUNTRIES_BY_NAME,
-      payload: response.data,
-    });
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/countries/?name=${name}`
+      );
+      return dispatch({
+        type: GET_COUNTRIES_BY_NAME,
+        payload: response.data,
+      });
+    } catch (error) {
+      alert(error.message);
+    }
   };
 }
 
 export function getCountriesById(id) {
   return async function (dispatch) {
-    const response = await axios.get(`http://localhost:3001/countries/${id}`);
-    return dispatch({
-      type: GET_COUNTRIES_BY_ID,
-      payload: response.data,
-    });
+    try {
+      const response = await axios.get(`http://localhost:3001/countries/${id}`);
+      return dispatch({
+        type: GET_COUNTRIES_BY_ID,
+        payload: response.data,
+      });
+    } catch (error) {
+      alert(error.message);
+    }
   };
 }
 
 export function postActivity(payload) {
   return async function (dispatch) {
-      try {
+    try {
       const response = await axios.post(
         "http://localhost:3001/activities/",
         payload
@@ -58,10 +66,9 @@ export function postActivity(payload) {
         payload: response.data,
       });
     } catch (error) {
-      alert(error.message)
-    };
-  }
- 
+      alert(error.message);
+    }
+  };
 }
 
 export function alphabeticalOrder(order) {
@@ -94,15 +101,14 @@ export function activityFilter(activity) {
 
 export function getActivities() {
   return async function (dispatch) {
-      try {
+    try {
       const response = await axios.get("http://localhost:3001/activities/");
       return dispatch({
         type: GET_ACTIVITIES,
         payload: response.data,
       });
     } catch (error) {
-      alert(error.message)
-    }; 
-  }
-  
+      alert(error.message);
+    }
+  };
 }

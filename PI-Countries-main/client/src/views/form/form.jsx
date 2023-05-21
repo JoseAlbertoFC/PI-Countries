@@ -63,7 +63,7 @@ function Form() {
         error = value && "Hours".includes(value) ? "👀" : "";
         break;
       case "countries":
-        error = value && !validateNamesRegex.test(value) ? "👀" : "";
+        error = value && "Select Country".includes(value) ? "👀" : "";
         break;
       default:
         break;
@@ -169,7 +169,6 @@ function Form() {
             name="difficulty"
             value={data.difficulty}
             onChange={handleChange}
-            required
           >
             <option>Points</option>
             <option>1</option>
@@ -189,7 +188,6 @@ function Form() {
             name="duration"
             value={data.duration}
             onChange={handleChange}
-            required
           >
             <option>Hours</option>
             <option>1</option>
@@ -210,7 +208,7 @@ function Form() {
         <div>
           <label>Countries</label>
           {console.log(allCountries)}
-          <select name="countries" onChange={handleChange} required>
+          <select name="countries" onChange={handleChange}>
             <option>Select Country</option>
             {allCountries.map(({ name, id }) => {
               return (
