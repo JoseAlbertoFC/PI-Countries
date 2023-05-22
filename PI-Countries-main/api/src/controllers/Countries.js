@@ -9,7 +9,9 @@ const getAllCountries = async () => {
 
   try {
     if (dbCountries.length === 0) {
-      const apiUrl = await axios("https://restcountries.com/v3/all");
+      const apiUrl = await axios(
+        "https://rest-countries.up.railway.app/v3/all"
+      );
       const apiInfo = await apiUrl.data.map((element) => {
         return {
           id: element.cca3,
