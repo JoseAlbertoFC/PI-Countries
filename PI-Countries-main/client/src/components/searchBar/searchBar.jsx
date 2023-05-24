@@ -9,7 +9,7 @@ import {
 } from "../../redux/actions";
 import "./searchBar.css";
 
-function SearchBar({ handleChange, handleSubmit }) {
+function SearchBar({ handleChange, handleSubmit, totalPages}) {
   const dispatch = useDispatch();
   const activities = useSelector((state) => state.Activities);
 
@@ -64,7 +64,7 @@ function SearchBar({ handleChange, handleSubmit }) {
           <option>Decrescent</option>
         </select>
 
-        <select onChange={handleContinentChange}>
+        <select onChange={handleContinentChange} totalPages={totalPages}>
           <option value="">Continent Filter</option>
           <option>Africa</option>
           <option>Antarctica</option>
@@ -75,7 +75,7 @@ function SearchBar({ handleChange, handleSubmit }) {
           <option>South America</option>
         </select>
 
-        <select onChange={handleActivityChange}>
+        <select onChange={handleActivityChange} totalPages={totalPages}>
           <option value="">Activity Filter</option>
           {activities.length &&
             activities.map((activity, index) => (

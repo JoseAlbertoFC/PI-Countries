@@ -28,24 +28,6 @@ function Form() {
 
   const dispatch = useDispatch();
 
-  function handleChange(event) {
-    const { name, value } = event.target;
-
-    if (name === "countries") {
-      setData((prevData) => ({
-        ...prevData,
-        [name]: [...prevData.countries, value],
-      }));
-    } else {
-      setData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
-
-    validate(name, value);
-  }
-
   function validate(name, value) {
     let error = "";
 
@@ -74,6 +56,25 @@ function Form() {
       [name]: error,
     }));
   }
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+
+    if (name === "countries") {
+      setData((prevData) => ({
+        ...prevData,
+        [name]: [...prevData.countries, value],
+      }));
+    } else {
+      setData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+
+    validate(name, value);
+  }
+
   function resetForm() {
     setData({
       name: "",
@@ -184,11 +185,7 @@ function Form() {
 
         <div>
           <label>Duration</label>
-          <select
-            name="duration"
-            value={data.duration}
-            onChange={handleChange}
-          >
+          <select name="duration" value={data.duration} onChange={handleChange}>
             <option>Hours</option>
             <option>1</option>
             <option>2</option>
@@ -218,7 +215,6 @@ function Form() {
               );
             })}
           </select>
-
 
           {errors.countries && (
             <span className="error-message">{errors.countries}</span>

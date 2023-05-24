@@ -62,12 +62,14 @@ function Home() {
 
     if (filterByContinent) {
       data = data.filter((country) => country.continent === filterByContinent);
+      setCurrentPage(1)
     }
 
     if (filterByActivity) {
       data = data.filter((country) =>
-        country.Activities.some((act) => act.name === filterByActivity)
+      country.Activities.some((act) => act.name === filterByActivity)
       );
+      setCurrentPage(1)
     }
 
     setDataToRender(data);
@@ -79,6 +81,8 @@ function Home() {
     allCountries,
   ]);
 
+  const filteredTotalItems = dataToRender.length;
+  const filteredTotalPages = Math.ceil(filteredTotalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentCountries = dataToRender.slice(startIndex, endIndex);
@@ -86,11 +90,11 @@ function Home() {
   return (
     <div className="home">
       <h2 className="home-title">Fun with Flags!</h2>
-      <SearchBar handleChange={handleChange} handleSubmit={handleSubmit} />
+      <SearchBar handleChange={handleChange} handleSubmit={handleSubmit} totalPages={filteredTotalPages}/>
       <Cards allCountries={currentCountries} />
       <Pagination
         className="pagination"
-        totalItems={allCountries.length}
+        totalItems={filteredTotalItems}
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={handlePageChange}

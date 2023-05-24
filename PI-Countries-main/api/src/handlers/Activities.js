@@ -1,7 +1,12 @@
-const { getAllActivities, postCountryActivity } = require("../controllers/Activities");
+const {
+  getAllActivities,
+  postCountryActivity,
+  deleteActivityByName,
+} = require("../controllers/Activities");
 
 const postActivity = async (req, res) => {
   const { name, season, difficulty, duration, countries } = req.body;
+
   try {
     const result = await postCountryActivity(
       name,
@@ -28,7 +33,21 @@ const getActivities = async (req, res) => {
   }
 };
 
+//.........................Extra Credits.............................
+
+const deleteActivity = async (req, res) => {
+  const { name } = req.query;
+
+  try {
+    const result = await deleteActivityByName(name);
+    res.status(200).json(result)
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   postActivity,
   getActivities,
+  deleteActivity,
 };
