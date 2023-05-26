@@ -25,7 +25,7 @@ const getAllCountries = async () => {
         };
       });
 
-      for (const country of apiInfo) {           //...Steramos sobre la apiInfo para buscar el pais en la db por id,
+      for (const country of apiInfo) {           //...Iteramos sobre la apiInfo para buscar el pais en la db por id,
         await Country.findOrCreate({             //...si el pais no se encuentra, el findOrCreate crea un nuevo registro
           where: { id: country.id },             //...con los valores que le damos.
           defaults: {

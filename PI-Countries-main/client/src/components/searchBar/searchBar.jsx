@@ -9,13 +9,13 @@ import {
 } from "../../redux/actions";
 import "./searchBar.css";
 
-function SearchBar({ handleChange, handleSubmit, totalPages}) {
-  const dispatch = useDispatch();
-  const activities = useSelector((state) => state.Activities);
+function SearchBar({ handleChange, handleSubmit, totalPages}) {   //...Recivimos props desde el home.
+  const dispatch = useDispatch();                                 //...Utilixamos el useDispatch para poder despachar acciones a redux
+  const activities = useSelector((state) => state.Activities);    //...y el useSelector para poder acceder a los estados de la store.
 
-  const handleAlfOrderChange = (event) => {
-    const selectedOrder = event.target.value;
-    if (selectedOrder === "A-Z") {
+  const handleAlfOrderChange = (event) => {        //...Esta funcion va a despachar la action "alphabeticalOrder" cada vez
+    const selectedOrder = event.target.value;      //...que se elija una opcion en su selector, esto va a permitir ordenar 
+    if (selectedOrder === "A-Z") {                 //...los paises alfabeticamente de forma ascendente o descendente.
       dispatch(alphabeticalOrder("asc"));
     } else if (selectedOrder === "Z-A") {
       dispatch(alphabeticalOrder("desc"));
@@ -24,9 +24,9 @@ function SearchBar({ handleChange, handleSubmit, totalPages}) {
     }
   };
 
-  const handlePopulationOrderChange = (event) => {
-    const selectedOrder = event.target.value;
-    if (selectedOrder === "Ascendant") {
+  const handlePopulationOrderChange = (event) => {      //...Esta funcion va a despachar la action "populationOrder" cada vez
+    const selectedOrder = event.target.value;           //...que se elija una opcion en su selector, esto va a permitir ordenar 
+    if (selectedOrder === "Ascendant") {                //...los paises por orden de poblacion de forma ascendente o descendente.
       dispatch(populationOrder("asc"));
     } else if (selectedOrder === "Decrescent") {
       dispatch(populationOrder("desc"));
@@ -35,19 +35,19 @@ function SearchBar({ handleChange, handleSubmit, totalPages}) {
     }
   };
 
-  const handleContinentChange = (event) => {
-    const selectedContinent = event.target.value;
-    dispatch(continentFilter(selectedContinent));
+  const handleContinentChange = (event) => {           //...Esta funcion va a despachar la action "continentFilter" cada vez que 
+    const selectedContinent = event.target.value;      //...se elija una opcion en su selector, esta va a filtrar los paises por
+    dispatch(continentFilter(selectedContinent));      //...continente
   };
 
-  const handleActivityChange = (event) => {
-    const selectedActivity = event.target.value;
-    dispatch(activityFilter(selectedActivity));
-  };
+  const handleActivityChange = (event) => {            //...Esta funcion va a despachar la action "activityFilter" cada vez que
+    const selectedActivity = event.target.value;       //...se elija una opcion en su selector, esta va a filtrar los paises por 
+    dispatch(activityFilter(selectedActivity));        //...actividad turistica, pero solo funcionara si se ha completado el 
+  };                                                   //...formulario previamente vinculando una actividad a un pais.
 
   useEffect(() => {
-    dispatch(getActivities());
-  }, [dispatch]);
+    dispatch(getActivities());                         //...Nos traemos todas las actividades que hayan sido creadas previamente
+  }, [dispatch]);                                      //...para mostrarlas en el selector.
 
   return (
     <div className="all-options">
@@ -100,3 +100,7 @@ function SearchBar({ handleChange, handleSubmit, totalPages}) {
 }
 
 export default SearchBar;
+
+//...En el selector de "Activity Filter" nos preguntamos si el array de actividades contiene algo,
+//...si es asi mapeamos ese array y por cada actividad creamos una opcion en el selector con
+//...el nombre de dicha actividad.

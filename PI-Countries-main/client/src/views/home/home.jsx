@@ -8,9 +8,9 @@ import SearchBar from "../../components/searchBar/searchBar";
 import "./home.css";
 
 function Home() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();   //...Utilizamos el useDispatch para poder despachar actions a redux y el useSelector para acceder al estado.
   const {
-    alphabeticalSort,
+    alphabeticalSort,               //...Con el useSelector obtenemos los estados que vamos a necesitar en el componente.
     populationSort,
     filterByContinent,
     filterByActivity,
@@ -22,57 +22,57 @@ function Home() {
     filterByActivity: state.filterByActivity,
     allCountries: state.allCountries,
   }));
-  const [searchString, setSearchString] = useState("");
-  const [dataToRender, setDataToRender] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [searchString, setSearchString] = useState("");     //...Definimos para almacenar el valor del campo de busqueda.
+  const [dataToRender, setDataToRender] = useState([]);     //...Definimos para almacenar los datos a mostrar en la pagina actual.
+  const [currentPage, setCurrentPage] = useState(1);        //...Definimos para realizar seguimiento a la pagina actual.
+  const itemsPerPage = 10;                                  //...Definimos los items/cards por pagina.
 
-  useEffect(() => {
-    dispatch(getCountries());
+  useEffect(() => {                              //...Utilizamos un useEffect para traer y mostrar todos los paises apenas 
+    dispatch(getCountries());                    //...se monta el componente "home" con la action getCountries.
   }, [dispatch]);
 
-  function handleChange(event) {
-    event.preventDefault();
+  function handleChange(event) {                 //...Utilizamos un handleChange para manejar los cambios en la barrita de busqueda
+    event.preventDefault();                      //...actualizando la funcion searchString.
     setSearchString(event.target.value);
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit(event) {                 //...Utilizamos un handleSubmit para manejar el dispatch de la action getCountriesByName
+    event.preventDefault();                      //...actualizando la funcion searchString.
     dispatch(getCountriesByName(searchString));
   }
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  const handlePageChange = (page) => {          //...Utilizamos un handlePageChange que se ejecuta cuando cambiamos de pagina, recibiendo
+    setCurrentPage(page);                       //...un numero de pagina por parametro con el cual actualiza la funcion currentPage.
+  };                                           
 
-  useEffect(() => {
-    let data = [...allCountries];
+  useEffect(() => {                      //...Utilizamos otro useEffect para que cuando se monte el componente pase lo siguiente:
+    let data = [...allCountries];        //...Se declara una variable data la cual va a ser una copia del array de allCountries.
 
-    if (alphabeticalSort === "asc") {
-      data.sort((a, b) => a.name.localeCompare(b.name));
+    if (alphabeticalSort === "asc") {                         //...Si alphabeticalSort es "acs" o "desc" el array "data" se
+      data.sort((a, b) => a.name.localeCompare(b.name));      //...ordenara alfabeticamente
     } else if (alphabeticalSort === "desc") {
       data.sort((a, b) => b.name.localeCompare(a.name));
     }
 
-    if (populationSort === "asc") {
-      data.sort((a, b) => a.population - b.population);
+    if (populationSort === "asc") {                           //...Si populationSort es "acs" o "desc" el array "data" se
+      data.sort((a, b) => a.population - b.population);       //...ordenara por orden de poblacion.
     } else if (populationSort === "desc") {
       data.sort((a, b) => b.population - a.population);
     }
 
-    if (filterByContinent) {
-      data = data.filter((country) => country.continent === filterByContinent);
-      setCurrentPage(1)
+    if (filterByContinent) {                                  //...Si filterByContinent tiene un valor, se filtrara el array "data", 
+      data = data.filter((country) => country.continent === filterByContinent);   //...mostrara solo los paises pertenecientes
+      setCurrentPage(1);                                      //...al continente seleccionado y te llevara a la pagina 1.
     }
 
-    if (filterByActivity) {
-      data = data.filter((country) =>
-      country.Activities.some((act) => act.name === filterByActivity)
+    if (filterByActivity) {                                  //...Si filterByActivity tiene un valor, se filtraraa el array "data", 
+      data = data.filter((country) =>                        //...mostrara solo los paises que contengan la actividad seleccionada
+        country.Activities.some((act) => act.name === filterByActivity)     //...y te llevara a la pagina 1.
       );
-      setCurrentPage(1)
+      setCurrentPage(1);
     }
 
-    setDataToRender(data);
+    setDataToRender(data);      //...Actualizamos el estado de dataToRender con la data ya filtrada y ordenada.
   }, [
     alphabeticalSort,
     populationSort,
@@ -81,16 +81,20 @@ function Home() {
     allCountries,
   ]);
 
-  const filteredTotalItems = dataToRender.length;
-  const filteredTotalPages = Math.ceil(filteredTotalItems / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentCountries = dataToRender.slice(startIndex, endIndex);
+  const filteredTotalItems = dataToRender.length;               //...Calculamos el total de elementos filtrados.
+  const filteredTotalPages = Math.ceil(filteredTotalItems / itemsPerPage); //...Calculamos el numero total de paginas en funcion de la cantidad de elementos por pagina.
+  const startIndex = (currentPage - 1) * itemsPerPage;               //...Calcula los índices de inicio y fin para obtener la 
+  const endIndex = startIndex + itemsPerPage;                        //...porción de elementos que se mostrarán en la página actual.
+  const currentCountries = dataToRender.slice(startIndex, endIndex);  //...Obtiene la porción actual de países a partir del estado dataToRender utilizando los índices calculados.
 
   return (
     <div className="home">
       <h2 className="home-title">Fun with Flags!</h2>
-      <SearchBar handleChange={handleChange} handleSubmit={handleSubmit} totalPages={filteredTotalPages}/>
+      <SearchBar
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        totalPages={filteredTotalPages}
+      />
       <Cards allCountries={currentCountries} />
       <Pagination
         className="pagination"

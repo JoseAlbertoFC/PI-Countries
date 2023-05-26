@@ -22,3 +22,7 @@ function NavBar() {
 }
 
 export default NavBar;
+
+//...El componente "navBar" nos permite navegar por toda la app,
+//...en su renderizado tenemos todas las rutas con sus respectivos 
+//...botones que nos llevan a las diferentes vistas de la app.

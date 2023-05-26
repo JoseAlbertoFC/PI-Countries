@@ -13,3 +13,7 @@ function Cards({ allCountries }) {
 }
 
 export default Cards;
+
+//...El componente "cards" recibe por props array de objetos, donde cada objeto
+//...es un country, posteriormente en el renderizado, mapeamos dicho array 
+//...para obtener cada "card"/"country" con toda su informacion.

@@ -12,6 +12,7 @@ import {
 
 let initialState = {
   allCountries: [],
+  country: [],
   post: [],
   Activities: [],
   alphabeticalSort: "",
@@ -37,7 +38,7 @@ function rootReducer(state = initialState, action) {
     case GET_COUNTRIES_BY_ID:
       return {
         ...state,
-        allCountries: [...action.payload],
+        country: action.payload,
       };
 
     case POST_ACTIVITY:

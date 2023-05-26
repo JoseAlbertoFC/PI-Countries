@@ -4,32 +4,32 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./form.css";
 
-const validateNamesRegex = /^[a-zA-Z\s,]+$/;
+const validateNamesRegex = /^[a-zA-Z\s,]+$/;            //...Definimos expresiones regulares para el name, difficulty y time.
 const validateDifficultyRegex = /^[1-5]$/;
 const validateTimeRegex = /^(?:[1-9]|1[0-9]|2[0-4])$/;
 
 function Form() {
-  const allCountries = useSelector((state) => state.allCountries);
-  const [data, setData] = useState({
-    name: "",
+  const allCountries = useSelector((state) => state.allCountries);  //...Utilizamos el useSelector para obtener todos los paises de redux.
+  const [data, setData] = useState({             //...Definimos el estado "data" para almacenar los valores de los campos 
+    name: "",                                    //...que componen el formulario.
     season: "",
     difficulty: "",
     duration: "",
     countries: [],
   });
 
-  const [errors, setErrors] = useState({
-    name: "",
+  const [errors, setErrors] = useState({        //...Definimos el estado "errors" para almacenar los mensajes de error de cada
+    name: "",                                   //...campo del formulario.
     season: "",
     difficulty: "",
     duration: "",
     countries: "",
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();               //...Utilixamos el useDispatch para poder despachar action al reducer. 
 
-  function validate(name, value) {
-    let error = "";
+  function validate(name, value) {      //...Creamos la funcion "validate" la cual valida los valores de los campos y actualiza
+    let error = "";                     //...el estado de error en consecuencia
 
     switch (name) {
       case "name":
@@ -57,10 +57,10 @@ function Form() {
     }));
   }
 
-  function handleChange(event) {
-    const { name, value } = event.target;
+  function handleChange(event) {           //...Definimos la funcion handleChange la cual se ejecuta cada vez que cambia el valor
+    const { name, value } = event.target;  //...de un campo en el formulario, actualiza el estado data y llama a la funcion validate
 
-    if (name === "countries") {
+    if (name === "countries") {            //...en cada cambio
       setData((prevData) => ({
         ...prevData,
         [name]: [...prevData.countries, value],
@@ -75,8 +75,8 @@ function Form() {
     validate(name, value);
   }
 
-  function resetForm() {
-    setData({
+  function resetForm() {      //...Creamos la funcion resetForm la cual se encargara de setear los valores del form a los valores
+    setData({                 //...iniciales, tanto los campos como los errores, luego del envio del mmismo. 
       name: "",
       season: "",
       difficulty: "",
@@ -93,9 +93,9 @@ function Form() {
     });
   }
 
-  function handleClose(countryToRemove) {
-    const filteredArray = data.countries.filter(
-      (country) => country !== countryToRemove
+  function handleClose(countryToRemove) {         //...Se define la funcion handleClose la cual se ejecutata al eliminar alguno de los
+    const filteredArray = data.countries.filter(  //...paises seleccionados, esta filtra el array de paises "data" y lo actualiza a un
+      (country) => country !== countryToRemove    //...nuevo array donde no aparecen los paises que han sido eliminados.
     );
     setData((previousData) => ({
       ...previousData,
@@ -103,15 +103,15 @@ function Form() {
     }));
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit(event) {          //...Se define la funcion handleSubmit la cual se ejecuta al momento de hacer click en el 
+    event.preventDefault();               //...boton para enviar el formulario.
 
     const { name, season, difficulty, duration, countries } = data;
 
     if (
-      validateNamesRegex.test(name) &&
-      ["Summer", "Winter", "Spring", "Autumn"].includes(season) &&
-      validateDifficultyRegex.test(difficulty) &&
+      validateNamesRegex.test(name) &&        //...esta hace todas las validaciones correspondientes, luego se fija en el array de paises
+      ["Summer", "Winter", "Spring", "Autumn"].includes(season) &&   //...seleccionados "data", lo itera y por cada pais, crea la actividad
+      validateDifficultyRegex.test(difficulty) &&                    //...indicada en el formulario.
       validateTimeRegex.test(duration) &&
       countries.length
     ) {
@@ -123,10 +123,10 @@ function Form() {
           })
         );
       });
-      alert("Activity Created Successfully!");
-      resetForm();
+      alert("Activity Created Successfully!");    //...Enviamos un alert con un mensaje si sale todo bien.
+      resetForm();                                //...Reseteamos el formulario.
     } else {
-      alert("Something's Wrong");
+      alert("Something's Wrong");                 //...Y en caso de que algo salga mal, enviamos un mensaje de error.
     }
   }
 

@@ -1,20 +1,20 @@
 import React from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
 import "./detail.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getCountriesById } from "../../redux/actions";
 
-function Detail() {
-  const { id } = useParams();
-  const [country, setCountry] = useState({});
+function Detail() {                                     
+  const { id } = useParams();                             //...Obtenemos el id que viene en la url utilizando el useParams.                       
+  const dispatch = useDispatch();                         //...Utilizamos el useDispatch para poder despachar actions a redux
+  const country = useSelector((state) => state.country);  //...y el useSelector para obtener el estado country.
 
-  useEffect(() => {
-    axios.get(`http://localhost:3001/countries/${id}`).then((response) => {
-      setCountry(response.data);
-    });
-  }, [id]);
-  console.log(country);
+  useEffect(() => {                     //...Utilizamos un useEffect para despachar la action getCountriesById apenas se monta el
+    dispatch(getCountriesById(id));     //...componenete y cada vez que el "id" cambie.
+  }, [dispatch, id]);                                               
+  console.log(country);                                   
+  
   return (
     <div className="firs-container">
       <div className="second-container">
@@ -37,3 +37,6 @@ function Detail() {
 }
 
 export default Detail;
+
+//...La etiqueta de Activities utiliza un mapeo para mostrar las actividades del país. Si existen actividades (country.Activities), 
+//...se muestra el nombre de cada actividad en una etiqueta <p>. En cambio, si no hay actividades, no se muestra nada.
