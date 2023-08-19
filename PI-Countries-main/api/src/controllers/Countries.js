@@ -10,7 +10,7 @@ const getAllCountries = async () => {
   try {
     if (dbCountries.length === 0) {               //...Si no hay nada en la db procedemos a buscar en la api.
       const apiUrl = await axios(
-        "https://rest-countries.up.railway.app/v3/all"
+        "https://restcountries.com/v3/all"
       );
       const apiInfo = await apiUrl.data.map((element) => {
         return {

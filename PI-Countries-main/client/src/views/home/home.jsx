@@ -39,6 +39,7 @@ function Home() {
   function handleSubmit(event) {                 //...Utilizamos un handleSubmit para manejar el dispatch de la action getCountriesByName
     event.preventDefault();                      //...actualizando la funcion searchString.
     dispatch(getCountriesByName(searchString));
+    setCurrentPage(1)
   }
 
   const handlePageChange = (page) => {          //...Utilizamos un handlePageChange que se ejecuta cuando cambiamos de pagina, recibiendo

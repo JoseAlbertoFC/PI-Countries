@@ -61,10 +61,13 @@ function Form() {
     const { name, value } = event.target;  //...de un campo en el formulario, actualiza el estado data y llama a la funcion validate
 
     if (name === "countries") {            //...en cada cambio
-      setData((prevData) => ({
-        ...prevData,
-        [name]: [...prevData.countries, value],
-      }));
+      
+      if(!data.countries.includes(value)){
+        setData((prevData) => ({
+          ...prevData,
+          [name]: [...prevData.countries, value],
+        }));
+      }
     } else {
       setData((prevData) => ({
         ...prevData,
